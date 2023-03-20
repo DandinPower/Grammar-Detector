@@ -1,3 +1,4 @@
+import gradio as gr
 import openai
 from dotenv import load_dotenv
 import os
@@ -15,10 +16,16 @@ def CheckGrammar(sentence):
             {"role": "system", "content": systemPrompt},
             {"role": "user", "content": sentence}
     ])
-    print(res.choices[0].message.content)    
+    return res.choices[0].message.content
 
-if __name__ == "__main__":
-    while True:
-        sentence = input('Please Type Your Sentence : ')
-        if sentence == '-1': break 
-        CheckGrammar(sentence)
+def check_grammar(sentence):
+    # Do something with the input sentence
+    # For example, you can check the grammar using a language model
+    # and return the corrected sentence
+    corrected_sentence = CheckGrammar(sentence)
+    return corrected_sentence
+
+input_text = gr.inputs.Textbox(label="Input Sentence")
+output_text = gr.outputs.Textbox(label="Corrected Sentence")
+
+gr.Interface(fn=check_grammar, inputs=input_text, outputs=output_text).launch()
